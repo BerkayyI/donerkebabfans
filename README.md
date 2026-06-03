@@ -64,7 +64,7 @@ Two folders, two jobs:
 - [ ] Commands:
   - [ ] `fan on`
   - [ ] `fan off`
-  - [ ] `fan status`   (also shows the current temperature)
+  - [ ] `fan monitor`   (also shows the current temperature)
   - [ ] `fan speed <0-3>`
 - [ ] Print clear answers and a friendly error if the Pi can't be reached.
 

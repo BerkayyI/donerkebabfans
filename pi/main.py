@@ -1,11 +1,20 @@
+import time
+
+import board
+from adafruit_bme280 import basic as adafruit_bme280
 from fastapi import FastAPI
 
 app = FastAPI()
+i2c = board.I2C()
+bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
 
-#   - [ ] `GET  /status`  → `{ "on": true/false, "speed": 0-3, "temperature": 21.5 }`
-#   - [ ] `POST /fan/on`
-#   - [ ] `POST /fan/off`
-#   - [ ] `POST /fan/speed`  with `{ "speed": 0-3 }`
+
+def function_monitoring():
+    time.sleep(1)
+    print("\nTemperature: %0.1f C" % bme280.temperature)
+    print("Humidity: %0.1f %%" % bme280.humidity)
+    print("Pressure: %0.1f hPa" % bme280.pressure)
+    time.sleep(2)
 
 
 @app.get("/")
