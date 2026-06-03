@@ -1,0 +1,7 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "include": ["cli", "pi"],
+  "typeCheckingMode": "basic",
+  "reportMissingImports": "warning"
+}
