@@ -13,7 +13,7 @@ fan_relay = OutputDevice(17, active_high=False, initial_value=False)
 
 def bme280_monitoring():
     temp = bme280.temperature
-    humidity = bme280.humidity
+    humidity = bme280.relative_humidity
     pressure = bme280.pressure
 
     return {
@@ -31,13 +31,20 @@ async def root():
 @app.post("/fan/on")
 async def fan_on():
     statistics = bme280_monitoring()
+
     if statistics["temperature"] > 26.0:
         fan_relay.on()
+        fan_state = "on"
     elif statistics["temperature"] < 24.0:
         fan_relay.off()
+        fan_state = "off"
+    else:
+        fan_state = "unchanged"
+
     return {
-        "fan": "on",
-        "message": "Fan turns on when temperature is above 26.0°C, shuts down when it reaches below 24.0°C",
+        "fan": fan_state,
+        "message": "Fan turns on above 26.0°C and shuts down below 24.0°C",
+        "statistics": statistics,
     }
 
 
@@ -50,6 +57,12 @@ async def fan_off():
 @app.get("/fan/monitor")
 async def fan_monitoring():
     try:
-        return bme280_monitoring()
+        statistics = bme280_monitoring()
+
+        return {
+            "statistics": statistics,
+            "in_fahrenheit": statistics["temperature"] * 9 / 5 + 32,
+        }
+
     except Exception as error:
         return {"error": str(error)}
