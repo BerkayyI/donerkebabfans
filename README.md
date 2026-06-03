@@ -44,6 +44,10 @@ Two folders, two jobs:
 - [ ] Find the Pi's IP address on the network: `hostname -I` (e.g. `192.168.0.42`).
 
 ### 1. The Pi server (`pi/`)
+    cd ~/donerkebabfans/pi
+    source .venv/bin/activate
+    sudo .venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+    
 - [ ] Small web server (FastAPI) that answers HTTP requests.
 - [ ] **Sensor**: read temperature/humidity/pressure from the BME280 (I2C).
 - [ ] **Fan**: turn GPIO pin on / off. (Speed = see note below.)
